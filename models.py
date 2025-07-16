@@ -1,10 +1,11 @@
 # Classes
 class Course:
-    def __init__(self, titulo, descricao, instrutor):
+    def __init__(self, titulo, descricao, instrutor, conteudos=None, students=None):
         self.titulo = titulo
         self.descricao = descricao
         self.instrutor = instrutor
-        self.students = []
+        self.conteudos = conteudos if conteudos is not None else []
+        self.students = students if students is not None else []
 
 
 class Student:

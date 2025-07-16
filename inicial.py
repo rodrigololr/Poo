@@ -6,7 +6,7 @@ from funcoes_instrutor import menu_instrutor
 
 
 def inicial():
-    dados_iniciais(alunos, instrutores, cursos)
+    
     print("\n\nBem-vindo a plataforma E-learning!\n\n")
     # Menu principal
     print("--- Menu Principal ---")
