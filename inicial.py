@@ -1,12 +1,11 @@
-from models import Course, Student, Instructor
+from models import Student, Course, Instructor
 from data_base import alunos, cursos, instrutores
-from dados_iniciais import dados_iniciais
-# from funcoes_aluno import menu_aluno
-from funcoes_instrutor import menu_instrutor
+from aluno.funcoes_aluno import menu_aluno
+from instrutor.funcoes_instrutor import menu_instrutor
 
 
 def inicial():
-    
+
     print("\n\nBem-vindo a plataforma E-learning!\n\n")
     # Menu principal
     print("--- Menu Principal ---")
@@ -33,10 +32,11 @@ def inicial():
 
         if aluno_logado:
             print(f"\nBem-vindo, {aluno_logado.nome}!")
-            # menu_aluno(aluno_logado, cursos)
+            menu_aluno(aluno_logado, cursos)
+            inicial()
         else:
             print("Aluno não encontrado.")
-
+            inicial()
 
     elif (choose == 2):
         # logica para o instrutor
@@ -53,8 +53,10 @@ def inicial():
         if instrutor_logado:
             print(f"\nBem-vindo, {instrutor_logado.nome}!")
             menu_instrutor(instrutor_logado, cursos)
+            inicial()
         else:
             print("Instrutor não encontrado.")
+            inicial()
 
     # SAIR DO SISTEMA
     elif (choose == 3):
@@ -65,5 +67,4 @@ def inicial():
     else:
         print("Opção inválida. Tente novamente.")
 
-    '''for aluno in alunos:
-        print(f"{aluno.name}")'''
+        

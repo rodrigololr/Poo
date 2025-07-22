@@ -20,3 +20,16 @@ class Instructor:
         self.nome = nome
         self.senha = senha
         self.cursos = []
+
+class Conteudo:
+    def __init__(self, titulo, tipo, duracao_minutos, check=False):
+        self.titulo = titulo
+        self.tipo = tipo  # 'Video' ou 'PDF'
+        self.duracao_minutos = duracao_minutos
+        self.check = "Não visto" if not check else "Visto"
+
+
+    #representação:
+    def __repr__(self):
+        return f"[{self.tipo}] {self.titulo} ({self.duracao_minutos} min) - {self.check}"
+
