@@ -35,7 +35,7 @@ transactions.
 
 • Video Streaming: Streaming educational videos with support for various formats;
 
-• Certification and Badging: Issuing certificates or badges upon course completion; (50%)
+• Certification and Badging: Issuing certificates or badges upon course completion;
 
 # Funcionalidades não implementadas:
 
