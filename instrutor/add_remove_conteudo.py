@@ -4,7 +4,7 @@ from models import Conteudo
 
 """
     permite que um instrutor adicione ou remova objetos Conteudo
-    de um de seus cursos.
+    de um de seus cursos
 """
 def executar(instrutor, cursos):
     print("\n--- Gerenciar Conteúdos de um Curso ---")
@@ -32,7 +32,7 @@ def executar(instrutor, cursos):
     else:
         print("Conteúdos atuais:")
         for conteudo_obj in curso_selecionado.conteudos:
-            print(f"  - {conteudo_obj}")
+            print(f"  - [{conteudo_obj.tipo}] {conteudo_obj.titulo}")
 
     acao = input(
         "\nVocê deseja 'adicionar' ou 'remover' um conteúdo? ").lower()
@@ -44,20 +44,20 @@ def executar(instrutor, cursos):
         try:
             nova_duracao = int(input("Digite a duração em minutos: "))
 
-            # Cria o objeto Conteudo
+            # cria o objeto Conteudo
             novo_conteudo = Conteudo(novo_titulo, novo_tipo, nova_duracao)
 
-            # Adiciona o objeto à lista do curso
+            # adiciona o objeto à lista do curso
             curso_selecionado.conteudos.append(novo_conteudo)
             print(
                 f"\nConteúdo '{novo_conteudo.titulo}' adicionado com sucesso!")
         except ValueError:
             print("Erro: A duração deve ser um número inteiro.")
 
-    # 4. Lógica para REMOVER
+
     elif acao == 'remover':
         if not curso_selecionado.conteudos:
-            return  # Sai da função se não há nada para remover
+            return 
 
         print("\nQual conteúdo você deseja remover?")
         for i, conteudo_obj in enumerate(curso_selecionado.conteudos):
@@ -66,6 +66,7 @@ def executar(instrutor, cursos):
         try:
             escolha_remover_num = int(
                 input("Digite o número do conteúdo a ser removido: "))
+            #pop() para remover o conteudo
             conteudo_removido = curso_selecionado.conteudos.pop(
                 escolha_remover_num - 1)
             print(

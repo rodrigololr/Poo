@@ -24,13 +24,13 @@ def executar(aluno_logado, curso_escolhido, cursos):
     print("\n--- Conteúdos do Curso ---")
     for i, conteudo in enumerate(curso_escolhido.conteudos):
         print(f"{i + 1} - {conteudo}")
+    if curso_completo:
+        print(f"{total_conteudos + 1} - Emitir Certificado")
 
     print("-" * 30)
 
    
-    if curso_completo:
-        print("🎉 Parabéns! Você concluiu este curso! 🎉")
-        print(f"{total_conteudos + 1} - Emitir Certificado")
+    
     
     print("0 - Voltar")
 
@@ -57,7 +57,44 @@ def executar(aluno_logado, curso_escolhido, cursos):
             conteudo_selecionado.check = "Visto"
             
         elif conteudo_selecionado.tipo.lower() == "quiz":
-            print(f"-> Abrindo quiz: {conteudo_selecionado.titulo}")
+
+            corretas = 0
+            quiz_obj = conteudo_selecionado.quiz_obj
+            total_de_perguntas = len(quiz_obj.perguntas)
+
+            
+            for i, pergunta_atual in enumerate(quiz_obj.perguntas):
+        
+                print(f"\nPergunta {i + 1}: {pergunta_atual.pergunta}")
+                for j, alternativa_texto in enumerate(pergunta_atual.alternativas):
+                    print(f"  {j + 1} - {alternativa_texto}")
+
+                try:
+                
+                    resposta_usuario = int(input("Qual alternativa correta? "))
+
+                    
+                    
+                    if (resposta_usuario - 1) == pergunta_atual.indiceResposta:
+                        print("Parabéns, você acertou!")
+                        corretas += 1
+                    else:
+                        resposta_certa_texto = pergunta_atual.alternativas[pergunta_atual.indiceResposta]
+                        print(f"Uma pena, você errou. A resposta correta era: '{resposta_certa_texto}'")
+
+                except (ValueError, IndexError):
+                    print("Resposta inválida. Pulando para a próxima pergunta.")
+            
+            
+            print("\n--- Resultado do Quiz ---")
+            print(f"Você acertou {corretas} de {total_de_perguntas} perguntas.")
+
+            if corretas == total_de_perguntas:
+                print("Parabéns, você acertou todas! Quiz concluído!")
+                conteudo_selecionado.check = "Visto"
+            else:
+                print("Continue estudando para acertar todas da próxima vez!")
+                
 
     elif curso_completo and escolha == total_conteudos + 1:
         certificado.executar(curso_escolhido, aluno_logado)

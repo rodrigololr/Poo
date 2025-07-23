@@ -35,7 +35,9 @@ transactions.
 
 • Video Streaming: Streaming educational videos with support for various formats;
 
-• Certification and Badging: Issuing certificates or badges upon course completion; (50%)
+• Certification and Badging: Issuing certificates or badges upon course completion;
+
+• Interactive Learning Tools: Incorporating quizzes, assignments, and interactive content;
 
 # Funcionalidades não implementadas:
 
@@ -43,8 +45,6 @@ transactions.
 
 • Payment and Subscription Management: Handling course fees, subscriptions, and financial
 transactions.
-
-• Interactive Learning Tools: Incorporating quizzes, assignments, and interactive content;
 
 • Discussion Forums and Chat: Facilitating student and instructor interactions through forums and
 chat;
