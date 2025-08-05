@@ -1,6 +1,6 @@
 from models import Student, Course, Instructor, Conteudo
 from data_base import alunos, cursos, instrutores
-from aluno import inscrever_curso, ver_cursos, plataformas_cursos
+from aluno import inscrever_curso, ver_cursos, plataformas_cursos, desempenho_aluno
 
 
 def menu_aluno(aluno_logado, cursos):
@@ -9,11 +9,12 @@ def menu_aluno(aluno_logado, cursos):
         print("1 - Ver Cursos Inscritos")
         print("2 - Inscrever em Curso")
         print("3 - Plataforma Cursos")
-        print("4 - Sair")
+        print("4 - Desempenho do Aluno")
+        print("0 - Sair")
 
         choose = int(input("Escolha uma opção: "))
 
-        while choose not in [1, 2, 3, 4]:
+        while choose not in [0, 1, 2, 3, 4]:
             print("Opção inválida. Tente novamente.")
             choose = int(input())
 
@@ -26,6 +27,8 @@ def menu_aluno(aluno_logado, cursos):
         elif choose == 3:
             plataformas_cursos.executar(aluno_logado, cursos)
         elif choose == 4:
+            desempenho_aluno.executar(aluno_logado)
+        elif choose == 0:
             print("Saindo do menu do aluno. Até logo!")
             break
 

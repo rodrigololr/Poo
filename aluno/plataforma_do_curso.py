@@ -1,107 +1,68 @@
 
 import os
-from aluno import certificado 
+from aluno import certificado, responder_quiz
+
 
 '''
     mostra o conteúdo do curso escolhido pelo aluno
 '''
 
-def executar(aluno_logado, curso_escolhido, cursos):
-
-    if not curso_escolhido.conteudos:
-        print("\nEste curso ainda não possui conteúdos.")
-        return
-
-    total_conteudos = len(curso_escolhido.conteudos)
-    contador_vistos = 0
-    for conteudo in curso_escolhido.conteudos:
-        if conteudo.check == "Visto":
-            contador_vistos += 1
-            
-    curso_completo = (total_conteudos == contador_vistos)
-
-    
-    print("\n--- Conteúdos do Curso ---")
-    for i, conteudo in enumerate(curso_escolhido.conteudos):
-        print(f"{i + 1} - {conteudo}")
-    if curso_completo:
-        print(f"{total_conteudos + 1} - Emitir Certificado")
-
-    print("-" * 30)
-
+def executar(aluno_logado, curso_escolhido):
    
-    
-    
-    print("0 - Voltar")
+    if curso_escolhido.titulo not in aluno_logado.progresso:
+        aluno_logado.progresso[curso_escolhido.titulo] = []
 
-  
-    try:
-        escolha = int(input("\nQual conteúdo você deseja ver agora? (ou escolha uma opção): "))
-    except ValueError:
-        print("Opção inválida. Por favor, digite um número.")
-        return
-
-
-    if(1 <= escolha <= total_conteudos):
-
-        conteudo_selecionado = curso_escolhido.conteudos[escolha - 1]
-
-        if conteudo_selecionado.tipo.lower() == "video":
-            print(f"-> Abrindo vídeo: {conteudo_selecionado.titulo}")
-            os.startfile("video.mp4")
-            conteudo_selecionado.check = "Visto"
+    while True:
+        titulos_vistos_pelo_aluno = aluno_logado.progresso[curso_escolhido.titulo]
+        titulos_obrigatorios_do_curso = {conteudo.titulo for conteudo in curso_escolhido.conteudos}
+        curso_completo = titulos_obrigatorios_do_curso.issubset(set(titulos_vistos_pelo_aluno))
         
-        elif conteudo_selecionado.tipo.lower() == "pdf":
-            print(f"-> Abrindo PDF: {conteudo_selecionado.titulo}")
-            os.startfile("pdf.pdf")
-            conteudo_selecionado.check = "Visto"
-            
-        elif conteudo_selecionado.tipo.lower() == "quiz":
+        total_conteudos = len(curso_escolhido.conteudos)
 
-            corretas = 0
-            quiz_obj = conteudo_selecionado.quiz_obj
-            total_de_perguntas = len(quiz_obj.perguntas)
+        print(f"\n--- Conteúdos do Curso: {curso_escolhido.titulo} ---")
+        for i, conteudo in enumerate(curso_escolhido.conteudos):
+            status = "✅ Visto" if conteudo.titulo in titulos_vistos_pelo_aluno else ""
+            print(f"  {i + 1} - {conteudo} {status}")
 
-            
-            for i, pergunta_atual in enumerate(quiz_obj.perguntas):
-        
-                print(f"\nPergunta {i + 1}: {pergunta_atual.pergunta}")
-                for j, alternativa_texto in enumerate(pergunta_atual.alternativas):
-                    print(f"  {j + 1} - {alternativa_texto}")
+        print("-" * 30)
+        if curso_completo:
+            print(f"{total_conteudos + 1} - Emitir Certificado")
+        print("0 - Voltar")
 
-                try:
+        try:
+            escolha = int(input("\nEscolha uma opção: "))
+        except:
+            print("Opção inválida.")
+            continue
+
+        if 1 <= escolha <= total_conteudos:
+            conteudo_selecionado = curso_escolhido.conteudos[escolha - 1]
+            if conteudo_selecionado.tipo == "video":
+                os.startfile("video.mp4")
+                if conteudo_selecionado.titulo not in titulos_vistos_pelo_aluno:
+                    aluno_logado.progresso[curso_escolhido.titulo].append(conteudo_selecionado.titulo)
+
+            elif conteudo_selecionado.tipo == "PDF":
+                os.startfile("pdf.pdf")
+                if conteudo_selecionado.titulo not in titulos_vistos_pelo_aluno:
+                    aluno_logado.progresso[curso_escolhido.titulo].append(conteudo_selecionado.titulo)
                 
-                    resposta_usuario = int(input("Qual alternativa correta? "))
-
-                    
-                    
-                    if (resposta_usuario - 1) == pergunta_atual.indiceResposta:
-                        print("Parabéns, você acertou!")
-                        corretas += 1
-                    else:
-                        resposta_certa_texto = pergunta_atual.alternativas[pergunta_atual.indiceResposta]
-                        print(f"Uma pena, você errou. A resposta correta era: '{resposta_certa_texto}'")
-
-                except (ValueError, IndexError):
-                    print("Resposta inválida. Pulando para a próxima pergunta.")
             
             
-            print("\n--- Resultado do Quiz ---")
-            print(f"Você acertou {corretas} de {total_de_perguntas} perguntas.")
+            elif conteudo_selecionado.tipo.lower() == "quiz":
+             
+                quiz_passou = responder_quiz.executar(conteudo_selecionado)
 
-            if corretas == total_de_perguntas:
-                print("Parabéns, você acertou todas! Quiz concluído!")
-                conteudo_selecionado.check = "Visto"
-            else:
-                print("Continue estudando para acertar todas da próxima vez!")
-                
+                if quiz_passou and conteudo_selecionado.titulo not in titulos_vistos_pelo_aluno:
+                    aluno_logado.progresso[curso_escolhido.titulo].append(conteudo_selecionado.titulo)
+                else:
+                    print("Progresso não salvo. Tente o quiz novamente para gabaritá-lo.")
 
-    elif curso_completo and escolha == total_conteudos + 1:
-        certificado.executar(curso_escolhido, aluno_logado)
-        input("\nPressione Enter para continuar...")
 
-    elif escolha == 0:
-        return # Simplesmente retorna para o menu anterior
-
-    else:
-        print("Opção inválida.")
+        elif curso_completo and escolha == total_conteudos + 1:
+            certificado.executar(curso_escolhido, aluno_logado)
+            input("\nPressione Enter para continuar...")
+        elif escolha == 0:
+            break
+        else:
+            print("Opção inválida.")

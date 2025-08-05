@@ -39,18 +39,20 @@ transactions.
 
 • Interactive Learning Tools: Incorporating quizzes, assignments, and interactive content;
 
+• Payment and Subscription Management: Handling course fees, subscriptions, and financial
+transactions.
+
+• Analytics and Reporting: Providing detailed analytics on student performance and course
+engagement;
+
 # Funcionalidades não implementadas:
 
 • Mobile Compatibility: Ensuring the platform is accessible and functional on mobile devices;
 
-• Payment and Subscription Management: Handling course fees, subscriptions, and financial
-transactions.
-
 • Discussion Forums and Chat: Facilitating student and instructor interactions through forums and
 chat;
 
-• Analytics and Reporting: Providing detailed analytics on student performance and course
-engagement;
+
 
 
 

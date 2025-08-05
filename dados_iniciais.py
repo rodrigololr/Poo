@@ -51,22 +51,22 @@ def dados_iniciais(listaAlunos, listaInstrutores, listaCursos):
     #CONTÉUDOS
     conteudos_py = [
         Conteudo("PDF - Sobre Python", "PDF", 10),
-        Conteudo("Vídeo - Introdução ao Python", "video", 30),
+        Conteudo("video - Introdução ao Python", "video", 30),
         quiz_py
     ]
     conteudos_ds = [
         Conteudo("PDF - Introdução ao Data Science", "PDF", 15),
-        Conteudo("Vídeo - Análise de Dados", "video", 45),
+        Conteudo("video - Análise de Dados", "video", 45),
         quiz_ds
     ]
     conteudos_ml = [
         Conteudo("PDF - Fundamentos de Machine Learning", "PDF", 20),
-        Conteudo("Vídeo - Algoritmos de Machine Learning", "video", 50),
+        Conteudo("video - Algoritmos de Machine Learning", "video", 50),
         quiz_ml
     ]
     conteudos_web = [
         Conteudo("PDF - Introdução ao Django", "PDF", 25),
-        Conteudo("Vídeo - Criando APIs com Django", "video", 60),
+        Conteudo("video - Criando APIs com Django", "video", 60),
         quiz_django
     ]
 
@@ -74,10 +74,10 @@ def dados_iniciais(listaAlunos, listaInstrutores, listaCursos):
 
 
     #CURSOS
-    curso1 = Course("Python Basico", "Curso introdutório de Python", carlos, conteudos_py, [lucas, larissa])
-    curso2 = Course("Data Science", "Curso de Data Science com Python", laura, conteudos_ds, [larissa, maria])
-    curso3 = Course("Machine Learning", "Curso de Machine Learning com Python", carlos, conteudos_ml, [lucas, maria])
-    curso4 = Course("Desenvolvimento Web", "Curso de desenvolvimento web com Django", laura, conteudos_web, [larissa])
+    curso1 = Course("Python Basico", "Curso introdutório de Python", carlos, conteudos_py, [lucas, larissa], preco=100.0)
+    curso2 = Course("Data Science", "Curso de Data Science com Python", laura, conteudos_ds, [larissa, maria], preco=150.0)
+    curso3 = Course("Machine Learning", "Curso de Machine Learning com Python", carlos, conteudos_ml, [lucas, maria], preco=200.0)
+    curso4 = Course("Desenvolvimento Web", "Curso de desenvolvimento web com Django", laura, conteudos_web, [larissa], preco=250.0)
     listaCursos.extend([curso1, curso2, curso3, curso4])
 
     for curso in listaCursos:

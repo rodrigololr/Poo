@@ -29,7 +29,7 @@ def executar(aluno_logado, cursos):
             if(0 < choose ) and (choose <= total_cursos + 1):
                 curso_escolhido = aluno_logado.cursos_inscritos[int(choose) - 1]
                 print(f"Você escolheu o curso: {curso_escolhido.titulo}")
-                plataforma_do_curso.executar(aluno_logado, curso_escolhido, cursos)
+                plataforma_do_curso.executar(aluno_logado, curso_escolhido)
 
             else:
                 print("Opção inválida. Por favor, digite um número válido.")

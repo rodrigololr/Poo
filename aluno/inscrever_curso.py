@@ -1,3 +1,4 @@
+from aluno.pagamento import pagamento
 '''
     função para inscrever um aluno em um curso
 '''
@@ -21,10 +22,10 @@ def executar(aluno_logado, cursos):
         if curso_encontrado in aluno_logado.cursos_inscritos:
             print("Você já está inscrito neste curso.")
         else:
-            print(f"Inscrevendo-se no curso '{curso_encontrado.titulo}'...")
-            aluno_logado.cursos_inscritos.append(curso_encontrado)
-            curso_encontrado.students.append(aluno_logado)
-            print(f"Você se inscreveu no curso '{curso_encontrado.titulo}' com sucesso!")
-    else:
-        
+            if pagamento(aluno_logado, curso_encontrado):
+                print(f"Inscrevendo-se no curso '{curso_encontrado.titulo}'...")
+                aluno_logado.cursos_inscritos.append(curso_encontrado)
+                curso_encontrado.students.append(aluno_logado)
+                print(f"Você se inscreveu no curso '{curso_encontrado.titulo}' com sucesso!")
+    else: 
         print("Curso não encontrado.")

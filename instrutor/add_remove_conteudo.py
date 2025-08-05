@@ -1,6 +1,7 @@
 # instrutor/add_remove_conteudo.py
 
 from models import Conteudo
+from instrutor.dry import selecionar_curso_do_instrutor
 
 """
     permite que um instrutor adicione ou remova objetos Conteudo
@@ -9,22 +10,11 @@ from models import Conteudo
 def executar(instrutor, cursos):
     print("\n--- Gerenciar Conteúdos de um Curso ---")
 
-    cursos_do_instrutor = [c for c in cursos if c.instrutor == instrutor]
+    curso_selecionado = selecionar_curso_do_instrutor(instrutor, cursos)
 
-    if not cursos_do_instrutor:
-        print("Você não tem cursos para gerenciar.")
+    if not curso_selecionado:
         return
 
-    print("Para qual curso você deseja gerenciar os conteúdos?")
-    for i, curso in enumerate(cursos_do_instrutor):
-        print(f"{i+1} - {curso.titulo}")
-
-    try:
-        escolha_curso_num = int(input("Digite o número do curso: "))
-        curso_selecionado = cursos_do_instrutor[escolha_curso_num - 1]
-    except (ValueError, IndexError):
-        print("Opção de curso inválida.")
-        return
 
     print(f"\nGerenciando o curso: '{curso_selecionado.titulo}'")
     if not curso_selecionado.conteudos:
@@ -32,28 +22,23 @@ def executar(instrutor, cursos):
     else:
         print("Conteúdos atuais:")
         for conteudo_obj in curso_selecionado.conteudos:
-            print(f"  - [{conteudo_obj.tipo}] {conteudo_obj.titulo}")
+            print(f"  - {conteudo_obj}")
 
-    acao = input(
-        "\nVocê deseja 'adicionar' ou 'remover' um conteúdo? ").lower()
+
+    acao = input("\nVocê deseja 'adicionar' ou 'remover' um conteúdo? ").lower()
+
 
     if acao == 'adicionar':
         print("\n--- Adicionando Novo Conteúdo ---")
         novo_titulo = input("Digite o título do conteúdo: ")
-        novo_tipo = input("Digite o tipo (ex: Video, PDF, Quiz): ")
+        novo_tipo = input("Digite o tipo (ex: Video, PDF): ")
         try:
             nova_duracao = int(input("Digite a duração em minutos: "))
-
-            # cria o objeto Conteudo
             novo_conteudo = Conteudo(novo_titulo, novo_tipo, nova_duracao)
-
-            # adiciona o objeto à lista do curso
             curso_selecionado.conteudos.append(novo_conteudo)
-            print(
-                f"\nConteúdo '{novo_conteudo.titulo}' adicionado com sucesso!")
-        except ValueError:
+            print(f"\nConteúdo '{novo_conteudo.titulo}' adicionado com sucesso!")
+        except:
             print("Erro: A duração deve ser um número inteiro.")
-
 
     elif acao == 'remover':
         if not curso_selecionado.conteudos:
@@ -64,14 +49,10 @@ def executar(instrutor, cursos):
             print(f"  {i+1} - {conteudo_obj.titulo}")
 
         try:
-            escolha_remover_num = int(
-                input("Digite o número do conteúdo a ser removido: "))
-            #pop() para remover o conteudo
-            conteudo_removido = curso_selecionado.conteudos.pop(
-                escolha_remover_num - 1)
-            print(
-                f"\nConteúdo '{conteudo_removido.titulo}' removido com sucesso!")
-        except (ValueError, IndexError):
+            escolha_remover_num = int(input("Digite o número do conteúdo a ser removido: "))
+            conteudo_removido = curso_selecionado.conteudos.pop(escolha_remover_num - 1)
+            print(f"\nConteúdo '{conteudo_removido.titulo}' removido com sucesso!")
+        except:
             print("Opção de conteúdo inválida.")
 
     else:
